@@ -1,6 +1,7 @@
 # SOURCES: https://learnopencv.com/age-gender-classification-using-opencv-deep-learning-c-python/, model loading and usage code taken from there
 
 import time
+
 import cv2
 import numpy as np
 import streamlit as st
@@ -11,12 +12,12 @@ def get_face_box(net, frame, conf_threshold=0.7):
     opencv_dnn_frame = frame.copy()
     frame_height = opencv_dnn_frame.shape[0]
     frame_width = opencv_dnn_frame.shape[1]
-    blob = cv2.dnn.blobFromImage(opencv_dnn_frame, 1.0, (300, 300), [
+    blob_img = cv2.dnn.blobFromImage(opencv_dnn_frame, 1.0, (300, 300), [
         104, 117, 123], True, False)
 
-    net.setInput(blob)
+    net.setInput(blob_img)
     detections = net.forward()
-    b_boxes = []
+    b_boxes_detect = []
     for i in range(detections.shape[2]):
         confidence = detections[0, 0, i, 2]
         if confidence > conf_threshold:
@@ -24,10 +25,10 @@ def get_face_box(net, frame, conf_threshold=0.7):
             y1 = int(detections[0, 0, i, 4] * frame_height)
             x2 = int(detections[0, 0, i, 5] * frame_width)
             y2 = int(detections[0, 0, i, 6] * frame_height)
-            b_boxes.append([x1, y1, x2, y2])
+            b_boxes_detect.append([x1, y1, x2, y2])
             cv2.rectangle(opencv_dnn_frame, (x1, y1), (x2, y2),
                           (0, 255, 0), int(round(frame_height / 150)), 8)
-    return opencv_dnn_frame, b_boxes
+    return opencv_dnn_frame, b_boxes_detect
 
 
 st.write("""
