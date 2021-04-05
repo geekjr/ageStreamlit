@@ -1,4 +1,6 @@
-# SOURCES: https://learnopencv.com/age-gender-classification-using-opencv-deep-learning-c-python/, model loading and usage code taken from there
+# SOURCES:
+# https://learnopencv.com/age-gender-classification-using-opencv-deep-learning-c-python/, model loading and usage code taken from there
+# https://discuss.streamlit.io/t/remove-made-with-streamlit-from-bottom-of-app/1370/2, Hiding the hamburger menu and watermark
 
 import time
 
@@ -7,6 +9,13 @@ import numpy as np
 import streamlit as st
 from PIL import Image
 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def get_face_box(net, frame, conf_threshold=0.7):
     opencv_dnn_frame = frame.copy()
