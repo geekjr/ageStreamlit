@@ -1,6 +1,7 @@
 # SOURCES:
 # https://learnopencv.com/age-gender-classification-using-opencv-deep-learning-c-python/, model loading and usage code taken from there
-# https://discuss.streamlit.io/t/remove-made-with-streamlit-from-bottom-of-app/1370/2, Hiding the hamburger menu and watermark
+# https://discuss.streamlit.io/t/remove-made-with-streamlit-from-bottom-of-app/1370/2,
+# Hiding the hamburger menu and watermark
 
 import time
 
@@ -16,6 +17,7 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 
 def get_face_box(net, frame, conf_threshold=0.7):
     opencv_dnn_frame = frame.copy()
@@ -78,15 +80,21 @@ if uploaded_file is not None:
         st.write("No face Detected, Checking next frame")
 
     for bbox in b_boxes:
-        face = cap[max(0, bbox[1] - padding):min(bbox[3] + padding, cap.shape[0] - 1),
-               max(0, bbox[0] - padding): min(bbox[2] + padding, cap.shape[1] - 1)]
+        face = cap[max(0, bbox[1] -
+                       padding):min(bbox[3] +
+                                    padding, cap.shape[0] -
+                                    1), max(0, bbox[0] -
+                                            padding): min(bbox[2] +
+                                                          padding, cap.shape[1] -
+                                                          1)]
 
         blob = cv2.dnn.blobFromImage(
             face, 1.0, (227, 227), MODEL_MEAN_VALUES, swapRB=False)
         gender_net.setInput(blob)
         gender_pred_list = gender_net.forward()
         gender = gender_classes[gender_pred_list[0].argmax()]
-        st.write(f"Gender : {gender}, confidence = {gender_pred_list[0].max() * 100}%")
+        st.write(
+            f"Gender : {gender}, confidence = {gender_pred_list[0].max() * 100}%")
 
         age_net.setInput(blob)
         age_pred_list = age_net.forward()
@@ -94,6 +102,16 @@ if uploaded_file is not None:
         st.write(f"Age : {age}, confidence = {age_pred_list[0].max() * 100}%")
 
         label = "{},{}".format(gender, age)
-        cv2.putText(frameFace, label, (bbox[0], bbox[1] - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(
+            frameFace,
+            label,
+            (bbox[0],
+             bbox[1] - 10),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (0,
+             255,
+             255),
+            2,
+            cv2.LINE_AA)
         st.image(frameFace)
