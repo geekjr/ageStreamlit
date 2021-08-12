@@ -12,7 +12,7 @@ from PIL import Image
 
 hide_streamlit_style = """
             <style>
-            #MainMenu {visibility: hidden;}
+            # MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             </style>
             """
@@ -53,19 +53,19 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     cap = np.array(image)
     cv2.imwrite('temp.jpg', cv2.cvtColor(cap, cv2.COLOR_BGR2GRAY)))
-    cap = cv2.imread('temp.jpg')
+    cap=cv2.imread('temp.jpg')
 
-    face_txt_path = "opencv_face_detector.pbtxt"
-    face_model_path = "opencv_face_detector_uint8.pb"
+    face_txt_path="opencv_face_detector.pbtxt"
+    face_model_path="opencv_face_detector_uint8.pb"
 
-    age_txt_path = "age_deploy.prototxt"
-    age_model_path = "age_net.caffemodel"
+    age_txt_path="age_deploy.prototxt"
+    age_model_path="age_net.caffemodel"
 
-    gender_txt_path = "gender_deploy.prototxt"
-    gender_model_path = "gender_net.caffemodel"
+    gender_txt_path="gender_deploy.prototxt"
+    gender_model_path="gender_net.caffemodel"
 
-    MODEL_MEAN_VALUES = (78.4263377603, 87.7689143744, 114.895847746)
-    age_classes = ['Age: ~1-2', 'Age: ~3-5', 'Age: ~6-14', 'Age: ~16-22',
+    MODEL_MEAN_VALUES=(78.4263377603, 87.7689143744, 114.895847746)
+    age_classes=['Age: ~1-2', 'Age: ~3-5', 'Age: ~6-14', 'Age: ~16-22',
                    'Age: ~25-30', 'Age: ~32-40', 'Age: ~45-50', 'Age: age is greater than 60']
     gender_classes = ['Gender:Male', 'Gender:Female']
 
@@ -81,7 +81,7 @@ if uploaded_file is not None:
 
     for bbox in b_boxes:
         face = cap[max(0, bbox[1] -
-                       padding):min(bbox[3] +
+                       padding): min(bbox[3] +
                                     padding, cap.shape[0] -
                                     1), max(0, bbox[0] -
                                             padding): min(bbox[2] +
